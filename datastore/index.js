@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('underscore');
 const counter = require('./counter');
-const counterFile = require('./data/counter.txt')
+const counterFile = require('./data/counter.txt');
 
 
 var items = {};
@@ -10,37 +10,61 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-
-  var id = counter.getNextUniqueId((callback) => {
-    var filePath = path.join(__dirname + '/data/'+id+'.txt')
-    console.log(filePath)
+  counter.getNextUniqueId((err, id) => {
+    // console.log(exports.counterFile);
+    var filePath = path.join(exports.dataDir, `/${id}.txt`);
     fs.writeFile(filePath, text, (err) => {
       if (err) {
-        throw ('error creating file')
-      } else{
-        callback(null, {id, text})
+        throw ('error creating file');
+      } else {
+        callback(null, { id, text });
       }
-    })
+    });
   });
-  // items[id] = text;
-  // callback(null, { id, text });
 };
 
+// items[id] = text;
+// callback(null, { id, text });
+
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  var todoArray = [];
+  fs.readdir(exports.dataDir, (err, files) => {
+    // console.log(files);
+    files.forEach(file => {
+      file = file.replace('.txt', '');
+      // console.log(file);
+      todoArray.push({ id: file, text: file });
+      // console.log(todoArray);
+    });
+    callback(err, todoArray);
   });
-  callback(null, data);
 };
 
 exports.readOne = (id, callback) => {
-  var text = items[id];
-  if (!text) {
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback(null, { id, text });
-  }
+  fs.readdir(exports.dataDir, (err, files) => {
+    // console.log(exports.dataDir);
+    files.forEach(file => {
+      // console.log(file);
+      if (file.replace('.txt', '') === id) {
+        fs.readFile(file, (err, fileData) => {
+          console.log(fileData);
+          if (err) {
+            callback(null, '');
+          } else {
+            callback(null, fileData);
+          }
+        });
+      }
+    });
+  });
 };
+// var text = items[id];
+// if (!text) {
+//   callback(new Error(`No item with id: ${id}`));
+// } else {
+//   callback(null, { id, text });
+// }
+
 
 exports.update = (id, text, callback) => {
   var item = items[id];

@@ -26,7 +26,7 @@ describe('getNextUniqueId', () => {
   beforeEach(initializeTestCounter);
   beforeEach(cleanTestDatastore);
 
-  xit('should use error first callback pattern', (done) => {
+  it('should use error first callback pattern', (done) => {
     counter.getNextUniqueId((err, id) => {
       expect(err).to.be.null;
       expect(id).to.exist;
@@ -34,7 +34,7 @@ describe('getNextUniqueId', () => {
     });
   });
 
-  xit('should give an id as a zero padded string', (done) => {
+  it('should give an id as a zero padded string', (done) => {
     counter.getNextUniqueId((err, id) => {
       expect(id).to.be.a.string;
       expect(id).to.match(/^0/);
@@ -42,7 +42,7 @@ describe('getNextUniqueId', () => {
     });
   });
 
-  xit('should give the next id based on the count in the file', (done) => {
+  it('should give the next id based on the count in the file', (done) => {
     fs.writeFileSync(counter.counterFile, '00025');
     counter.getNextUniqueId((err, id) => {
       expect(id).to.equal('00026');
@@ -50,7 +50,7 @@ describe('getNextUniqueId', () => {
     });
   });
 
-  xit('should update the counter file with the next value', (done) => {
+  it('should update the counter file with the next value', (done) => {
     fs.writeFileSync(counter.counterFile, '00371');
     counter.getNextUniqueId((err, id) => {
       const counterFileContents = fs.readFileSync(counter.counterFile).toString();
@@ -109,6 +109,7 @@ describe('todos', () => {
   describe('readAll', () => {
     it('should return an empty array when there are no todos', (done) => {
       todos.readAll((err, todoList) => {
+        console.log('inside empty readall test:', err, '\n', todoList);
         expect(err).to.be.null;
         expect(todoList.length).to.equal(0);
         done();
@@ -130,7 +131,6 @@ describe('todos', () => {
         });
       });
     });
-
   });
 
   describe('readOne', () => {
