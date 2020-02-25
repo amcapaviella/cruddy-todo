@@ -16,9 +16,12 @@
     "test": "mocha test"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "jest": "^25.1.0",
+    "live-server": "^1.2.1",
     "morgan": "^1.9.0",
     "sprintf-js": "^1.1.1",
     "underscore": "^1.9.1"

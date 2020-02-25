@@ -26,7 +26,7 @@ describe('getNextUniqueId', () => {
   beforeEach(initializeTestCounter);
   beforeEach(cleanTestDatastore);
 
-  it('should use error first callback pattern', (done) => {
+  xit('should use error first callback pattern', (done) => {
     counter.getNextUniqueId((err, id) => {
       expect(err).to.be.null;
       expect(id).to.exist;
@@ -34,7 +34,7 @@ describe('getNextUniqueId', () => {
     });
   });
 
-  it('should give an id as a zero padded string', (done) => {
+  xit('should give an id as a zero padded string', (done) => {
     counter.getNextUniqueId((err, id) => {
       expect(id).to.be.a.string;
       expect(id).to.match(/^0/);
@@ -42,7 +42,7 @@ describe('getNextUniqueId', () => {
     });
   });
 
-  it('should give the next id based on the count in the file', (done) => {
+  xit('should give the next id based on the count in the file', (done) => {
     fs.writeFileSync(counter.counterFile, '00025');
     counter.getNextUniqueId((err, id) => {
       expect(id).to.equal('00026');
@@ -50,7 +50,7 @@ describe('getNextUniqueId', () => {
     });
   });
 
-  it('should update the counter file with the next value', (done) => {
+  xit('should update the counter file with the next value', (done) => {
     fs.writeFileSync(counter.counterFile, '00371');
     counter.getNextUniqueId((err, id) => {
       const counterFileContents = fs.readFileSync(counter.counterFile).toString();

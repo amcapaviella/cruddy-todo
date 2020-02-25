@@ -1,1 +1,11 @@
-00001
+(callback) => {
+    var filePath = path.join(__dirname + '/data/'+id+'.txt')
+    console.log(filePath)
+    fs.writeFile(filePath, text, (err) => {
+      if (err) {
+        throw ('error creating file')
+      } else{
+        callback(null, {id, text})
+      }
+    })
+  }
